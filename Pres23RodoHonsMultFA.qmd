@@ -1,0 +1,9 @@
+---
+title: Slides for factor analysis honours lecture
+format:
+  revealjs:
+    embed-resources: false
+---
+
+# Introduction
+
