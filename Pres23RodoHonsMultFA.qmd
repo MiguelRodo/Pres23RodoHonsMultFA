@@ -1,9 +1,62 @@
 ---
-title: Slides for factor analysis honours lecture
+title: Factor analysis
+subtitle: Lecture eight
+author: Miguel Rodo (based on slides from Francesca Little)
 format:
   revealjs:
-    embed-resources: false
+    embed-resources: true
 ---
 
-# Introduction
+## Introduction to factor analysis (FA)
 
+- Context: $\mathbf{Y} \sim \; ?$
+  - Goal: Explain covariance structure of $Y$ in terms of a smaller number of unobserved variables
+
+:::{.fragment}
+
+:::{.callout-note}
+## Difference between FA and PCA?
+  - Context for PCA: $\mathbf{Y}$
+  - In PCA, the focus is on simply creating a set of variables that capture the variance in $\mathbf{Y}$ 
+  - In FA, we now postulate that the variance in $\mathbf{Y}$ is driven by an underlying set of unobserved variables
+  - This difference is formalised by the maths, and we'll see examples of this later
+:::
+
+:::
+
+## Lecture content
+
+- Orthogonal Factor Model (OFM)​
+  - Structure
+  - Methods for estimation
+    - Principal component method
+    - Maximum likelihood mehtod
+  - Factor rotation
+
+## 
+
+<!--
+Write a cloze procedure assignment to test the orthogonal factor model
+
+
+!-->
+
+## Take-aways
+
+- Theoretical:
+  - Conceptual understanding of factor analysis
+     - Simpler formulation
+     - Similarities and differences from PCA and multivariate regression
+  - Orthogonal factor model:
+    - Structure
+    - Methods of estimation
+    - Rotation
+- Practical:
+  - Interpret an orthogonal factor model
+  - Fit an orthogonal facto model using both methods of estimation
+
+
+​
+## References
+
+Johnson,RA & Wichern, DW. "Applied Multivariate Analysis", 6th edition, Pearson International Edition, 2007.
