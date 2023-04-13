@@ -44,14 +44,19 @@ format:
 
 
 ## Difference between FA and PCA?
-  - Context for PCA: $\mathbf{Y}$
-  - In PCA, the focus is on simply creating a set of variables that capture the variance in $\mathbf{Y}$ 
-  - In FA, we now postulate that the variance in $\mathbf{Y}$ is driven by an underlying set of unobserved variables
-    - In other words, we propose a statistical model that explains the covariance structure, and then fit it
-    - It's a richer, more extensible framework
-  - This difference is formalised by the maths, which we'll get into
+
+::: {.incremental}
+- Context for PCA: $\mathbf{Y}$
+- In PCA, the focus is on simply creating a set of variables that capture the variance in $\mathbf{Y}$ 
+- In FA, we now postulate that the variance in $\mathbf{Y}$ is driven by an underlying set of unobserved variables
+  - In other words, we propose a statistical model that explains the covariance structure, and then fit it
+  - It's a richer, more extensible framework
+- This difference is formalised by the maths, which we'll get into
+- :::
 
 ## Lecture content
+
+::: {.incremental}
 
 - Orthogonal Factor Model (OFM)​
   - Structure
@@ -61,12 +66,20 @@ format:
   - Factor rotation
   - Factor scores
 
+:::
+
 ## Orthogonal factor model
+
+::: {.incremental}
 
 - The orthogonal factor model is a straightforward example of a factor model
 - We'll describe it in detail, describe how to estimate it and how to best interpret the data using it
 
+:::
+
 ## Assumption I: linearity {.smaller}
+
+::: {.incremental}
 
 - Suppose that we have we observe the random vector $\mathbf{X}:p\times 1$.
 - The first key assumption is *linearity*.
@@ -76,7 +89,12 @@ format:
   - If the data *were* observed, what would you have?
     - A multivariate regression model
 
+:::
+
 ## Assumption II: independence {.smaller}
+
+
+::: {.incremental}
 
 - The second key assumption is *independence*.
 - We assume that:
@@ -86,7 +104,11 @@ format:
   - The errors are independent of one another.
   - The factors are independent of the errors.
 
+:::
+
 ## Formal description of the OFM
+
+::: {.fragment}
 
 Let $\mathbf{X} \in \mathcal{R}^p$ have mean $\mathbf{\mu} \in \mathcal{R}^p$ and be linearly related to a set of $m\leq p$ unobserved random variables $\mathbf{F} \in \mathcal{R}^m$ by the equation
 
@@ -97,6 +119,10 @@ $$
 
 where $\mathrm{E}[\mathbf{F}]= \mathbf{0}$, $\mathrm{COV}[\mathbf{F}]= \mathbf{I}$, $\mathrm{E}[\mathbf{\epsilon}]= \mathbf{0}$, and $\mathrm{COV}[\epsilon]= \mathbf{\Psi}$ for $\mathbf{\Psi}$ a diagonal matrix and $\mathrm{Cov}[\mathbf{F}, \mathbf{\epsilon}]= \mathbf{0}$.
 
+:::
+
+:::{.fragment}
+
 :::{.callout-note}
 ## Terminology
 - $\mathbf{F}_j$: $j$-th common factor
@@ -104,14 +130,23 @@ where $\mathrm{E}[\mathbf{F}]= \mathbf{0}$, $\mathrm{COV}[\mathbf{F}]= \mathbf{I
 - $l_{ij}$: loading of $i$-th variable on $j$-th common factor
 :::
 
+:::
+
 ## Relationship between $\mathbf{L}$, $\mathbf{F}$ and $\mathbf{\epsilon}$
+
+::: {.fragment}
 
 - Each element of $\mathbf{F}$ has unit variance.
   - Therefore, the scale of the variabes in $X$ is mediated by $\mathbf{L}$.
 - The loadings induce correlation between the variables ($\mathbf{X}$), as they are simply differently-weighted sums of the same factors (even if those factors are independent of each other).
 - The error terms are unrestricted in scale and account for variance unexplained by the common factors.
 
+:::
+
 ## Relationship with multivariate regression model {.smaller}
+
+::: {.incremental}
+
 
 - The essential difference is that the independent (explanatory) variables are *unobserved*
 
@@ -124,7 +159,11 @@ where $\mathrm{E}[\mathbf{F}]= \mathbf{0}$, $\mathrm{COV}[\mathbf{F}]= \mathbf{I
     - Two sources of randomness in the factor model (the factors, $\mathbf{F}$ and the error terms, $\mathbf{\epsilon}$) but only one in the multivariate regression model (the error terms, $\mathbf{\epsilon}$).
   - Covariance is not induced by the error terms in the factor model, but is in the multivariate regression model.
 
+:::
+
 ## Implied covariance structure I {.smaller}
+
+::: {.incremental}
 
 - The previous assumptions imply the following properties of the covariance structure (proofs at end of the slides):
   - $\mathrm{COV}[\mathbf{X}]= \mathbf{L}\mathbf{L}' + \mathbf{\Psi}$
@@ -133,14 +172,23 @@ where $\mathrm{E}[\mathbf{F}]= \mathbf{0}$, $\mathrm{COV}[\mathbf{F}]= \mathbf{I
       - It also states that $\mathrm{Cov}[\mathbf{X}_i, \mathbf{X}_j]= \sum_{k=1}^ml_{ik}l_{jk}$.
   - $\mathrm{COV}[\mathbf{X}, \mathbf{F}]=\mathbf{L}$.
 
+
+:::
+
 ## Implied covariance structure II {.smaller}
+
+::: {.incremental}
 
 - The factor model assumes that $p(p+1)/2$ covariances variances can be reproduced from $pm$ factor loadings and $p$ specific variances.
 - This can always be achieved by setting $m=p$ and setting $\mathbf{L}=\mathbf{V}\mathbf{D}/\sqrt{n-1}$ where $\mathbf{X}=\mathbf{U}\mathbf{D}\mathbf{V}'$.
 - It is not always possible for $m<p$, however.
   - But we don't let this detain us in practice - after all, we're just trying to approximate the matrix. 
 
+:::
+
 ## Solutions are not unique I {.smaller}
+
+::: {.incremental}
 
 - The mathematical description of the OFM does not imply a unique solution for any given data set.
 - Any given solution is unique only up until an *orthogonal rotation*.
@@ -149,11 +197,19 @@ where $\mathrm{E}[\mathbf{F}]= \mathbf{0}$, $\mathrm{COV}[\mathbf{F}]= \mathbf{I
 - Let $\mathbf{T}:m\times m$ be an orthogonal matrix (i.e. $\mathbf{T}'\mathbf{T}=\mathbf{T}\mathbf{T}'=\mathbf{I}$).
 - We now show that when we replace $\mathbf{L}$ by $\mathbf{L}^*=\mathbf{L}\mathbf{T}$ and $\mathbf{F}$ by $\mathbf{F}^*=\mathbf{T}'\mathbf{F}$, the specific factors and covariance matrix are unchanged and that the distributional assumptions regarding the common factors are met.
 
+:::
+
 ## Solutions are not unique II {.smaller}
+
+::: {.fragment}
 
 - Firstly, we show that the mean and variance assumptions are met for for the common factors:
   - $\mathrm{E}[\mathbf{F}^*]=\mathrm{E}[\mathbf{T}'\mathbf{F}]=\mathrm{E}[\mathbf{F}]=\mathrm{0}$
   - $\mathrm{Cov}[\mathbf{F}^*]=\mathrm{T}'\mathrm{Cov}[\mathbf{F}]\mathrm{T}=\mathrm{T}'\mathrm{T}=\mathrm{I}$
+
+:::
+
+::: {.fragment}
 
 - Secondly, we show that the specific factors are unchanged:
 
@@ -167,14 +223,24 @@ $$
 
 for $\mathbf{L}^*=\mathbf{L}\mathbf{T}$ and $\mathbf{F}^*=\mathbf{T}'\mathbf{F}$.
 
+:::
+
+::: {.fragment}
+
 - Thirdly, the estimated covariance matrix also does not change:
   - $\hat{\mathbf{L}}^{\ast}\hat{\mathbf{L}}^{\ast\prime}$ $  +\hat{\mathbf{\Psi}} = \hat{\mathbf{L}}\mathbf{T}\mathbf{T}' \hat{\mathbf{L}}'}^{\prime}+\hat{\mathbf{\Psi}} = \hat{\mathbf{L}}\hat{\mathbf{L}}' +\hat{\mathbf{\Psi}}$.
 
+:::
+
 ## Consequence of non-uniqueness
+
+::: {.incremental}
 
 - Since the solution to the OFM is not unique, we can find initial values for $\hat{\mathbf{L}}$ and then rotate them to find a solution that is more interpretable.
 - By "interpretable", we mean one where each factor contributes prominently to a minority of the variables, e.g. factor 1 contributes strongly only to variables 1 and 2, factor 2 contributes strongly only to variables 2 and 5, etc.
 - In the next couple of slides, we'll consider two approaches for fitting the factor analysis model to a given dataset, and then we'll consider rotating those initial solutions.
+  
+:::
 
 ## First method of estimation: Principal component method I{background-image="_data_raw/img/francesca/fit-pc-short.png" background-size="90%" background-position="bottom"}
 
@@ -202,6 +268,8 @@ for $\mathbf{L}^*=\mathbf{L}\mathbf{T}$ and $\mathbf{F}^*=\mathbf{T}'\mathbf{F}$
 
 ## Take-aways I
 
+::: {.incremental}
+
 - Conceptual understanding of factor analysis' relationship to PCA and multivariate regression
 - Assumed mean and covariance structure of an orthogonal factor model
   - Implied form for covariance matrix
@@ -211,7 +279,11 @@ for $\mathbf{L}^*=\mathbf{L}\mathbf{T}$ and $\mathbf{F}^*=\mathbf{T}'\mathbf{F}$
   - Principal component method (first principles)
   - Maximum likelihood (`factanal` package)
 
+:::
+
 ## Take-aways II
+
+::: {.incremental}
 
 - Factor rotations
   - Theory behind why they're permitted
@@ -220,7 +292,8 @@ for $\mathbf{L}^*=\mathbf{L}\mathbf{T}$ and $\mathbf{F}^*=\mathbf{T}'\mathbf{F}$
 - Calculation of factor scores
   - From first principles
 
-​
+:::
+
 ## References
 
 Johnson,RA & Wichern, DW. "Applied Multivariate Analysis", 6th edition, Pearson International Edition, 2007.
