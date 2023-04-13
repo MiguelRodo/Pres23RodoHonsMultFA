@@ -136,7 +136,7 @@ where $\mathrm{E}[\mathbf{F}]= \mathbf{0}$, $\mathrm{COV}[\mathbf{F}]= \mathbf{I
 
 ## Relationship between $\mathbf{L}$, $\mathbf{F}$ and $\mathbf{\epsilon}$
 
-::: {.fragment}
+::: {.incremental}
 
 - Each element of $\mathbf{F}$ has unit variance.
   - Therefore, the scale of the variabes in $X$ is mediated by $\mathbf{L}$.
