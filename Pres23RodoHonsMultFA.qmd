@@ -7,22 +7,49 @@ format:
     embed-resources: true
 ---
 
-## Introduction to factor analysis (FA)
+## Factor analysis (FA)
 
 - Context: $\mathbf{Y} \sim \; ?$
   - Goal: Explain covariance structure of $Y$ in terms of a smaller number of unobserved variables
 
+## Examples of contexts for factor analysis {.smaller}
+
+:::{.fragment}
+- Suppose that we have a set of measurements for a set of variables, and we think that there are some underlying variables we can't measure that are driving what we observe
+:::
+
 :::{.fragment}
 
-:::{.callout-note}
+- Example 1: Psychological assessments
+  - Observed variables: answers to a set of psychological questions
+  - Hidden variables: aspects of personality (e.g. extraversion, neuroticism)
+
+:::
+
+:::{.fragment}
+- Example 2: Consumer behaviour
+   - Observed variables: purchase history, demographics, etc.
+   - Hidden variables: key drivers of purchase behaviour (e.g. parent or not, age, wealth) 
+
+:::
+
+:::{.fragment}
+
+- Example 3: Diagnosing a medical condition
+  - Observed variables: transcriptomic measurements
+  - Hidden variables: underlying disease state (e.g. cured, infected, advanced)
+:::
+
+
+
+
 ## Difference between FA and PCA?
   - Context for PCA: $\mathbf{Y}$
   - In PCA, the focus is on simply creating a set of variables that capture the variance in $\mathbf{Y}$ 
   - In FA, we now postulate that the variance in $\mathbf{Y}$ is driven by an underlying set of unobserved variables
-  - This difference is formalised by the maths, and we'll see examples of this later
-:::
-
-:::
+    - In other words, we propose a statistical model that explains the covariance structure, and then fit it
+    - It's a richer, more extensible framework
+  - This difference is formalised by the maths, which we'll get into
 
 ## Lecture content
 
@@ -30,31 +57,168 @@ format:
   - Structure
   - Methods for estimation
     - Principal component method
-    - Maximum likelihood mehtod
+    - Maximum likelihood
   - Factor rotation
+  - Factor scores
 
-## 
+## Orthogonal factor model
 
-<!--
-Write a cloze procedure assignment to test the orthogonal factor model
+- The orthogonal factor model is a straightforward example of a factor model
+- We'll describe it in detail, describe how to estimate it and how to best interpret the data using it
+
+## Assumption I: linearity {.smaller}
+
+- Suppose that we have we observe the random vector $\mathbf{X}:p\times 1$.
+- The first key assumption is *linearity*.
+- We assume that the $p$ observed variables are linear combinations of $m\leq p$ unobserved random variables (the factors) plus some per-variable error term
+  - In other words, $X_i = \mathbf{f}'\mathbf{a}_i + \mathbf{e}$, where $\mathbf{a}_i$ is your vector of coefficient, $f$ is the vector of coefficients and $e_i$ is the error
+  - Essentially a linear model where the data, $\mathbf{f}$, are not observed
+  - If the data *were* observed, what would you have?
+    - A multivariate regression model
+
+## Assumption II: independence {.smaller}
+
+- The second key assumption is *independence*.
+- We assume that:
+  - The factors are independent of one another.
+    - This is not always plausible, but "forces" the analysis  give factors that give different information to one another.
+    - For example, when identifying drivers of consumer behaviour "wealth" might be independent of, say, "parent or not".
+  - The errors are independent of one another.
+  - The factors are independent of the errors.
+
+## Formal description of the OFM
+
+Let $\mathbf{X} \in \mathcal{R}^p$ have mean $\mathbf{\mu} \in \mathcal{R}^p$ and be linearly related to a set of $m\leq p$ unobserved random variables $\mathbf{F} \in \mathcal{R}^m$ by the equation
+
+$$
+\mathbf{X}-\mathbf{\mu} = \mathbf{L}\mathbf{F} + \mathbf{\epsilon},
+$$
 
 
-!-->
+where $\mathrm{E}[\mathbf{F}]= \mathbf{0}$, $\mathrm{COV}[\mathbf{F}]= \mathbf{I}$, $\mathrm{E}[\mathbf{\epsilon}]= \mathbf{0}$, and $\mathrm{COV}[\epsilon]= \mathbf{\Psi}$ for $\mathbf{\Psi}$ a diagonal matrix and $\mathrm{Cov}[\mathbf{F}, \mathbf{\epsilon}]= \mathbf{0}$.
 
-## Take-aways
+:::{.callout-note}
+## Terminology
+- $\mathbf{F}_j$: $j$-th common factor
+- $\mathbf{\epsilon}_i$: $i$-th specific factor
+- $l_{ij}$: loading of $i$-th variable on $j$-th common factor
+:::
 
-- Theoretical:
-  - Conceptual understanding of factor analysis
-     - Simpler formulation
-     - Similarities and differences from PCA and multivariate regression
-  - Orthogonal factor model:
-    - Structure
-    - Methods of estimation
-    - Rotation
-- Practical:
-  - Interpret an orthogonal factor model
-  - Fit an orthogonal facto model using both methods of estimation
+## Relationship between $\mathbf{L}$, $\mathbf{F}$ and $\mathbf{\epsilon}$
 
+- Each element of $\mathbf{F}$ has unit variance.
+  - Therefore, the scale of the variabes in $X$ is mediated by $\mathbf{L}$.
+- The loadings induce correlation between the variables ($\mathbf{X}$), as they are simply differently-weighted sums of the same factors (even if those factors are independent of each other).
+- The error terms are unrestricted in scale and account for variance unexplained by the common factors.
+
+## Relationship with multivariate regression model {.smaller}
+
+- The essential difference is that the independent (explanatory) variables are *unobserved*
+
+- Multivariate multiple regression model formulation:
+  - $\mathbf{Y}_{n \times m} = \mathbf{X}_{n\times(r+1)}\mathbf{B}_{(r+1)\times m} + \mathbf{\epsilon}_{n\times m}$ for $\mathrm{Cov}[\mathbf{\epsilon}]$ not necessarily diagonal
+- Factor model formulation:
+  - $\mathbf{X}_{n\times p} - \mathbf{\mu}_{n \times p} = \mathbf{F}_{n \times m}\mathbf{L}_{m\times p} + \mathbf{\epsilon}_{n\times p}$ for $\mathrm{Cov}[\mathbf{\epsilon}]$ diagonal
+- Differences:
+  - The "design" matrix is unobserved in the factor model ($\mathbf{F}$) but is observed in the multivariate regression model ($\mathbf{X}$).
+    - Two sources of randomness in the factor model (the factors, $\mathbf{F}$ and the error terms, $\mathbf{\epsilon}$) but only one in the multivariate regression model (the error terms, $\mathbf{\epsilon}$).
+  - Covariance is not induced by the error terms in the factor model, but is in the multivariate regression model.
+
+## Implied covariance structure I {.smaller}
+
+- The previous assumptions imply the following properties of the covariance structure (proofs at end of the slides):
+  - $\mathrm{COV}[\mathbf{X}]= \mathbf{L}\mathbf{L}' + \mathbf{\Psi}$
+      - This states that $\mathrm{Var}[\mathbf{X}_i]= \sum_{j=1}^ml_{im}^2 + \psi_ii$.
+        - We term $\sum_{k=1}^ml_{ik}^2$ the communality of the $i$-th factor and $\psi_ii$ the specific variance of the $i$-th factor.
+      - It also states that $\mathrm{Cov}[\mathbf{X}_i, \mathbf{X}_j]= \sum_{k=1}^ml_{ik}l_{jk}$.
+  - $\mathrm{COV}[\mathbf{X}, \mathbf{F}]=\mathbf{L}$.
+
+## Implied covariance structure II {.smaller}
+
+- The factor model assumes that $p(p+1)/2$ covariances variances can be reproduced from $pm$ factor loadings and $p$ specific variances.
+- This can always be achieved by setting $m=p$ and setting $\mathbf{L}=\mathbf{V}\mathbf{D}/\sqrt{n-1}$ where $\mathbf{X}=\mathbf{U}\mathbf{D}\mathbf{V}'$.
+- It is not always possible for $m<p$, however.
+  - But we don't let this detain us in practice - after all, we're just trying to approximate the matrix. 
+
+## Solutions are not unique I {.smaller}
+
+- The mathematical description of the OFM does not imply a unique solution for any given data set.
+- Any given solution is unique only up until an *orthogonal rotation*.
+  - In other words, the solution may be rotatedwithout changing the specific factors and covariance matrix whilst still satisfying the distributional assumptions regarding the common factors.
+- Suppose that we have $\mathbf{L}$ and $\mathbf{F}$ such that $\mathbf{X}=\mathbf{L}\mathbf{F} + \mathbf{\epsilon}$. 
+- Let $\mathbf{T}:m\times m$ be an orthogonal matrix (i.e. $\mathbf{T}'\mathbf{T}=\mathbf{T}\mathbf{T}'=\mathbf{I}$).
+- We now show that when we replace $\mathbf{L}$ by $\mathbf{L}^*=\mathbf{L}\mathbf{T}$ and $\mathbf{F}$ by $\mathbf{F}^*=\mathbf{T}'\mathbf{F}$, the specific factors and covariance matrix are unchanged and that the distributional assumptions regarding the common factors are met.
+
+## Solutions are not unique II {.smaller}
+
+- Firstly, we show that the mean and variance assumptions are met for for the common factors:
+  - $\mathrm{E}[\mathbf{F}^*]=\mathrm{E}[\mathbf{T}'\mathbf{F}]=\mathrm{E}[\mathbf{F}]=\mathrm{0}$
+  - $\mathrm{Cov}[\mathbf{F}^*]=\mathrm{T}'\mathrm{Cov}[\mathbf{F}]\mathrm{T}=\mathrm{T}'\mathrm{T}=\mathrm{I}$
+
+- Secondly, we show that the specific factors are unchanged:
+
+$$
+\begin{align*}
+\mathbf{X} - \mathbf{\mu} &= \mathbf{L}\mathbf{F} + \mathbf{\epsilon} \\
+&= \mathbf{L}\mathbf{T}\mathbf{T}'\mathbf{F} + \mathbf{\epsilon} \\
+&= \mathbf{L}^*\mathbf{F}^* + \mathbf{\epsilon}, \\
+\end{align*}
+$$
+
+for $\mathbf{L}^*=\mathbf{L}\mathbf{T}$ and $\mathbf{F}^*=\mathbf{T}'\mathbf{F}$.
+
+- Thirdly, the estimated covariance matrix also does not change:
+  - $\hat{\mathbf{L}}^{\ast}\hat{\mathbf{L}}^{\ast\prime}$ $  +\hat{\mathbf{\Psi}} = \hat{\mathbf{L}}\mathbf{T}\mathbf{T}' \hat{\mathbf{L}}'}^{\prime}+\hat{\mathbf{\Psi}} = \hat{\mathbf{L}}\hat{\mathbf{L}}' +\hat{\mathbf{\Psi}}$.
+
+## Consequence of non-uniqueness
+
+- Since the solution to the OFM is not unique, we can find initial values for $\hat{\mathbf{L}}$ and then rotate them to find a solution that is more interpretable.
+- By "interpretable", we mean one where each factor contributes prominently to a minority of the variables, e.g. factor 1 contributes strongly only to variables 1 and 2, factor 2 contributes strongly only to variables 2 and 5, etc.
+- In the next couple of slides, we'll consider two approaches for fitting the factor analysis model to a given dataset, and then we'll consider rotating those initial solutions.
+
+## First method of estimation: Principal component method I{background-image="_data_raw/img/francesca/fit-pc-short.png" background-size="90%" background-position="bottom"}
+
+## First method of estimation: Principal component method II{background-image="_data_raw/img/francesca/fit-pc-2.png" background-size="85%" background-position="bottom"}
+
+## Example 1: Fitting using PC method I{background-image="_data_raw/img/francesca/fit-pc-example.png" background-size="85%" background-position="bottom"}
+
+## Example 1: Fitting using PC method II{background-image="_data_raw/img/francesca/fit-pc-example_2.png" background-size="80%" background-position="bottom"}
+
+## Example 1: Fitting using PC method III{background-image="_data_raw/img/francesca/fit-pc-example_3.png" background-size="80%" background-position="bottom"}
+
+## Example 2: Fitting using PC method I{background-image="_data_raw/img/francesca/fit-example2-1.png" background-size="80%" background-position="bottom"}
+
+## Example 2: Fitting using PC method II{background-image="_data_raw/img/francesca/fit-pc-example2-2.png" background-size="80%" background-position="bottom"}
+
+## Second method of estimation: Maximum likelihood {background-image="_data_raw/img/francesca/fit-ml-1.png" background-size="80%" background-position="bottom"}
+
+## Example 3: Fitting using maximum likelihood I {background-image="_data_raw/img/francesca/fit-ml-2.png" background-size="80%" background-position="bottom"}
+
+## Revisiting rotation {background-image="_data_raw/img/francesca/rotation-2.png" background-size="80%" background-position="bottom"}
+
+## Factor scores {background-image="_data_raw/img/francesca/factor-scores.png" background-size="85%" background-position="bottom"}
+
+## Example 4: Factor scores{background-image="_data_raw/img/francesca/factor-scores-example.png" background-size="85%" background-position="bottom"}
+
+## Take-aways I
+
+- Conceptual understanding of factor analysis' relationship to PCA and multivariate regression
+- Assumed mean and covariance structure of an orthogonal factor model
+  - Implied form for covariance matrix
+  - Communality and specific factors
+  - Correlation between observed and unobserved variables
+- Two methods of fitting the OFM to a given dataset
+  - Principal component method (first principles)
+  - Maximum likelihood (`factanal` package)
+
+## Take-aways II
+
+- Factor rotations
+  - Theory behind why they're permitted
+  - Able to justify why they may be useful
+- Interpretation of results of factor analysis
+- Calculation of factor scores
+  - From first principles
 
 ​
 ## References

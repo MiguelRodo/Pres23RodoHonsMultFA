@@ -4,3 +4,15 @@
 .RData
 .Ruserdata
 
+_tmp/**/*
+
+
+_output/**/*
+
+
+_archive/**/*
+
+
+docs/**/*
+
+
