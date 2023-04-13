@@ -46,13 +46,15 @@ format:
 ## Difference between FA and PCA?
 
 ::: {.incremental}
+
 - Context for PCA: $\mathbf{Y}$
 - In PCA, the focus is on simply creating a set of variables that capture the variance in $\mathbf{Y}$ 
 - In FA, we now postulate that the variance in $\mathbf{Y}$ is driven by an underlying set of unobserved variables
   - In other words, we propose a statistical model that explains the covariance structure, and then fit it
   - It's a richer, more extensible framework
 - This difference is formalised by the maths, which we'll get into
-- :::
+  
+:::
 
 ## Lecture content
 
